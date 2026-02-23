@@ -1,0 +1,39 @@
+name: SIGNAL — AI News Pipeline
+
+on:
+  # 1日4回自動実行（6時間おき）
+  schedule:
+    - cron: '0 0 * * *'   # 09:00 JST
+    - cron: '0 3 * * *'   # 12:00 JST
+    - cron: '0 6 * * *'   # 15:00 JST
+    - cron: '0 12 * * *'  # 21:00 JST
+  # 手動実行も可能
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic feedparser supabase tweepy python-dotenv
+
+      - name: Run news pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
+        run: python scripts/news_pipeline.py

@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIGNAL — AI Intelligence Feed</title>
+  <meta name="description" content="最新AIニュースを厳選してお届け。研究者からビジネスパーソンまで、信頼できる情報を日英バイリンガルで。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #18181f;
+      --border: rgba(255,255,255,0.07);
+      --border-bright: rgba(255,255,255,0.15);
+      --text: #e8e8f0;
+      --text-muted: #888899;
+      --text-dim: #555566;
+      --accent: #00e5ff;
+      --accent2: #ff6b35;
+      --accent3: #a78bfa;
+      --green: #22c55e;
+      --red: #f87171;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NOISE TEXTURE */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .logo-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: -4px;
+      display: block;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-btn {
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .nav-btn:hover, .nav-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,229,255,0.05);
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      letter-spacing: 0.1em;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    /* TICKER */
+    .ticker-wrap {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      padding: 0.5rem 0;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 4rem;
+      animation: ticker 40s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ticker-item span.tag {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 4rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 7rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+
+    .hero-title em {
+      color: var(--accent);
+      font-style: normal;
+      display: block;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .hero-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 360px;
+    }
+
+    /* MAIN LAYOUT */
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-right: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.3rem 0.7rem;
+      border-radius: 3px;
+      font-size: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      transition: all 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .filter-btn:hover { border-color: var(--border-bright); color: var(--text); }
+    .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.07); }
+
+    /* NEWS CARDS */
+    .news-feed { display: flex; flex-direction: column; gap: 1px; }
+
+    .news-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .news-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+      transform-origin: bottom;
+    }
+
+    .news-card:hover { border-color: var(--border-bright); background: var(--bg3); }
+    .news-card:hover::before { transform: scaleY(1); }
+
+    .news-card.featured {
+      background: linear-gradient(135deg, rgba(0,229,255,0.05) 0%, transparent 60%);
+      border-color: rgba(0,229,255,0.2);
+    }
+
+    .news-card.featured::before { transform: scaleY(1); background: var(--accent); }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .category-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .cat-research { background: rgba(167,139,250,0.15); color: var(--accent3); border: 1px solid rgba(167,139,250,0.3); }
+    .cat-product { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
+    .cat-business { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
+    .cat-policy { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+
+    .importance-badge {
+      margin-left: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .importance-badge.high { color: var(--accent2); }
+    .importance-badge.critical { color: var(--red); }
+
+    .news-time {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+    }
+
+    .news-title {
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    .news-title-en {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+      font-style: italic;
+    }
+
+    .news-summary {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .news-summary-en {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .show-en .news-summary-en { display: block; }
+    .show-en .news-summary { display: none; }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .source-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .source-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    .source-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.03em;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .action-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      letter-spacing: 0.03em;
+    }
+
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .read-more {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: gap 0.15s;
+    }
+
+    .read-more:hover { gap: 0.5rem; }
+
+    /* SCORE METER */
+    .score-bar {
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      margin-top: 1rem;
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      border-radius: 1px;
+      transition: width 0.6s ease;
+    }
+
+    .score-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* SIDEBAR */
+    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .sidebar-widget {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+    }
+
+    .widget-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .widget-title-accent { color: var(--accent); }
+
+    /* TRENDING */
+    .trending-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .trending-item:last-child { border-bottom: none; }
+    .trending-item:hover .trending-title { color: var(--accent); }
+
+    .trending-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--text-dim);
+      line-height: 1;
+      min-width: 28px;
+    }
+
+    .trending-num.top { color: var(--accent); }
+
+    .trending-title {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.4;
+      transition: color 0.15s;
+    }
+
+    .trending-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+    }
+
+    /* SOURCES */
+    .source-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .source-item {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .source-item:hover { border-color: var(--accent); color: var(--accent); }
+
+    .source-status {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* STATS WIDGET */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-desc {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* NEWSLETTER */
+    .newsletter-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .newsletter-input {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      padding: 0.6rem 0.75rem;
+      border-radius: 3px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .newsletter-input::placeholder { color: var(--text-dim); }
+    .newsletter-input:focus { border-color: var(--accent); }
+
+    .newsletter-btn {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      padding: 0.6rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .newsletter-btn:hover { opacity: 0.85; }
+
+    .newsletter-note {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    /* AD PLACEHOLDER */
+    .ad-placeholder {
+      background: var(--bg3);
+      border: 1px dashed var(--border);
+      padding: 1.5rem;
+      text-align: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      margin-top: 4rem;
+      padding: 2rem;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+
+    .footer-link:hover { color: var(--accent); }
+
+    /* LANG TOGGLE */
+    .lang-toggle {
+      display: flex;
+      gap: 0.25rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem;
+    }
+
+    .lang-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--text-dim);
+      transition: all 0.15s;
+      letter-spacing: 0.05em;
+    }
+
+    .lang-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ANIMATIONS */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: fadeIn 0.4s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .news-card:nth-child(1) { animation-delay: 0s; }
+    .news-card:nth-child(2) { animation-delay: 0.05s; }
+    .news-card:nth-child(3) { animation-delay: 0.1s; }
+    .news-card:nth-child(4) { animation-delay: 0.15s; }
+    .news-card:nth-child(5) { animation-delay: 0.2s; }
+
+    /* MOBILE */
+    @media (max-width: 1024px) {
+      .main { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 1rem; }
+      nav { display: none; }
+      .hero { padding: 2rem 1rem 1rem; }
+      .main { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div>
+        SIGNAL
+        <span class="logo-sub">AI Intelligence</span>
+      </div>
+      <div class="logo-dot"></div>
+    </a>
+    <nav>
+      <button class="nav-btn active" onclick="filterCategory('all')">ALL</button>
+      <button class="nav-btn" onclick="filterCategory('research')">RESEARCH</button>
+      <button class="nav-btn" onclick="filterCategory('product')">PRODUCT</button>
+      <button class="nav-btn" onclick="filterCategory('business')">BUSINESS</button>
+      <button class="nav-btn" onclick="filterCategory('policy')">POLICY</button>
+    </nav>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('ja')">JA</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item"><span class="tag">NEW</span> OpenAI、GPT-5の詳細をリーク？開発者フォーラムに掲載</span>
+    <span class="ticker-item"><span class="tag">HOT</span> Google DeepMind、タンパク質折りたたみ予測で新記録</span>
+    <span class="ticker-item"><span class="tag">ALERT</span> EU AI法の施行期限まで90日</span>
+    <span class="ticker-item"><span class="tag">NEW</span> Anthropic、$2.5B追加資金調達を発表</span>
+    <span class="ticker-item"><span class="tag">HOT</span> Meta、次世代LLaMAの一部コードを公開</span>
+    <span class="ticker-item"><span class="tag">NEW</span> OpenAI、GPT-5の詳細をリーク？開発者フォーラムに掲載</span>
+    <span class="ticker-item"><span class="tag">HOT</span> Google DeepMind、タンパク質折りたたみ予測で新記録</span>
+    <span class="ticker-item"><span class="tag">ALERT</span> EU AI法の施行期限まで90日</span>
+    <span class="ticker-item"><span class="tag">NEW</span> Anthropic、$2.5B追加資金調達を発表</span>
+    <span class="ticker-item"><span class="tag">HOT</span> Meta、次世代LLaMAの一部コードを公開</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h1 class="hero-title">
+      The AI
+      <em>Signal</em>
+      You Need
+    </h1>
+  </div>
+  <div class="hero-meta">
+    <p class="hero-desc">ノイズを排除し、AIの本質的な動きだけを届ける。研究・製品・ビジネス・政策 — 全方位の情報を独自スコアリングで厳選。</p>
+    <div style="display:flex;gap:2rem;">
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="counter-sources">0</span>
+        <span class="hero-stat-label">Sources Monitored</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="counter-today">0</span>
+        <span class="hero-stat-label">Articles Today</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="counter-score">0%</span>
+        <span class="hero-stat-label">Avg Quality Score</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- FEED -->
+  <div>
+    <div class="filter-bar">
+      <span class="filter-label">SORT:</span>
+      <button class="filter-btn active">RELEVANCE</button>
+      <button class="filter-btn">LATEST</button>
+      <button class="filter-btn">IMPACT</button>
+      <span class="filter-label" style="margin-left:1rem;">LANG:</span>
+      <button class="filter-btn active">JA + EN</button>
+    </div>
+
+    <div class="news-feed" id="news-feed">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <!-- Trending -->
+    <div class="sidebar-widget">
+      <div class="widget-title">
+        TRENDING <span class="widget-title-accent">NOW</span>
+      </div>
+      <div id="trending-list"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="sidebar-widget">
+      <div class="widget-title">TODAY'S <span class="widget-title-accent">PULSE</span></div>
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-num">47</span>
+          <span class="stat-desc">Articles processed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">8</span>
+          <span class="stat-desc">Featured picks</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">12</span>
+          <span class="stat-desc">Sources active</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">91%</span>
+          <span class="stat-desc">Quality avg</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad placeholder -->
+    <div class="ad-placeholder">
+      AD SPACE<br>300×250
+    </div>
+
+    <!-- Sources -->
+    <div class="sidebar-widget">
+      <div class="widget-title">MONITORED <span class="widget-title-accent">SOURCES</span></div>
+      <div class="source-grid" id="sources-grid"></div>
+    </div>
+
+    <!-- Newsletter -->
+    <div class="sidebar-widget">
+      <div class="widget-title">DAILY <span class="widget-title-accent">BRIEF</span></div>
+      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.75rem;">毎朝8時、重要ニュースを5本に厳選してお届け。</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="your@email.com">
+        <button class="newsletter-btn" onclick="subscribe()">SUBSCRIBE</button>
+        <span class="newsletter-note">No spam. Unsubscribe anytime.</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">SIGNAL</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">About</a>
+    <a href="#" class="footer-link">API</a>
+    <a href="#" class="footer-link">Privacy</a>
+    <a href="#" class="footer-link">Advertise</a>
+  </div>
+  <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text-dim);">
+    Powered by Claude AI
+  </div>
+</footer>
+
+<script>
+// ============================================
+// DEMO DATA (実際はAPIから取得)
+// ============================================
+const newsData = [
+  {
+    id: 1,
+    category: 'research',
+    importance: 'critical',
+    featured: true,
+    title: 'Google DeepMind、推論能力を10倍向上させる新アーキテクチャ「Gemini Ultra 2.0」を発表',
+    title_en: 'Google DeepMind Unveils "Gemini Ultra 2.0" with 10x Reasoning Improvement',
+    summary: 'DeepMindの研究チームが本日、既存モデルと比較して数学・科学的推論能力を約10倍向上させたと主張する新アーキテクチャを発表。特に多段階推論タスクにおいて人間の専門家レベルを超えるパフォーマンスを示したとされる。内部ベンチマークでGPT-4oを全分野で上回ったと報告。',
+    summary_en: 'DeepMind\'s research team unveiled a new architecture claiming ~10x improvement in mathematical and scientific reasoning over existing models. The system reportedly surpassed human expert-level performance on multi-step reasoning tasks and outperformed GPT-4o across all internal benchmarks.',
+    source: 'DeepMind Blog',
+    time: '14分前',
+    score: 95,
+    url: '#'
+  },
+  {
+    id: 2,
+    category: 'product',
+    importance: 'high',
+    featured: false,
+    title: 'Anthropic、Claudeに「Projects」機能を追加 — 長期記憶と文脈保持が可能に',
+    title_en: 'Anthropic Adds "Projects" Feature to Claude — Enabling Long-Term Memory and Context Retention',
+    summary: 'AnthropicがClaude.aiに新機能「Projects」をローンチ。会話間での記憶保持、カスタムインストラクションの永続化、ファイルの組織化が可能になる。これによりChatGPTのGPTsやGeminiのGemsに相当する機能をClaudeも持つことになる。',
+    summary_en: 'Anthropic launched "Projects" on Claude.ai, enabling memory retention between conversations, persistent custom instructions, and file organization. This brings Claude feature parity with ChatGPT\'s GPTs and Gemini\'s Gems.',
+    source: 'Anthropic',
+    time: '1時間前',
+    score: 88,
+    url: '#'
+  },
+  {
+    id: 3,
+    category: 'business',
+    importance: 'high',
+    featured: false,
+    title: 'Microsoft、AIインフラへの投資を年間$100Bに拡大 — データセンター用電力確保が最大の課題に',
+    title_en: 'Microsoft Expands AI Infrastructure Investment to $100B Annually — Power Procurement Emerges as Key Challenge',
+    summary: 'Microsoftが2025年のAIインフラ投資計画を発表。年間1000億ドルという前例のない規模への拡大を明らかにした一方、電力確保が最大のボトルネックになっていると認める。原子力・再生可能エネルギー両方で電力パートナーシップを積極的に模索中。',
+    summary_en: 'Microsoft revealed plans for unprecedented $100B annual AI infrastructure investment while acknowledging power procurement as the primary bottleneck. The company is actively pursuing partnerships in both nuclear and renewable energy sectors.',
+    source: 'Bloomberg',
+    time: '2時間前',
+    score: 82,
+    url: '#'
+  },
+  {
+    id: 4,
+    category: 'policy',
+    importance: 'normal',
+    featured: false,
+    title: 'EU AI法、「汎用AIモデル」への規制細則を公開 — オープンソースモデルの扱いが焦点に',
+    title_en: 'EU AI Act Publishes Detailed Rules for "General Purpose AI Models" — Open-Source Treatment in Focus',
+    summary: 'EU委員会が汎用AI（GPAI）モデルに関する詳細なガイドラインを公開。特にオープンソースモデルの透明性要件と責任の所在が論争の的に。MetaのLlama、MistralなどのEU系スタートアップへの影響が注目される。施行は6ヶ月以内。',
+    summary_en: 'The EU Commission published detailed guidelines for General Purpose AI models, with transparency requirements and liability for open-source models emerging as controversial points. Implementation expected within 6 months.',
+    source: 'EU Commission',
+    time: '3時間前',
+    score: 79,
+    url: '#'
+  },
+  {
+    id: 5,
+    category: 'research',
+    importance: 'high',
+    featured: false,
+    title: '東京大学 × リクルート研究チーム、日本語特化LLMの新ベンチマークを公開',
+    title_en: 'UTokyo × Recruit Research Team Releases New Benchmark for Japanese-Specialized LLMs',
+    summary: '東京大学とリクルートの共同研究チームが日本語LLM評価の標準化を目指した新ベンチマーク「JA-BENCH 2.0」を公開。敬語・方言・法律文書など日本語特有の難しさを定量化。現時点でClaude 3.5がトップスコア。',
+    summary_en: 'A joint research team from UTokyo and Recruit published "JA-BENCH 2.0", a new standardized benchmark for Japanese LLM evaluation covering keigo, dialects, and legal documents. Claude 3.5 currently leads all metrics.',
+    source: 'arXiv / 東京大学',
+    time: '5時間前',
+    score: 85,
+    url: '#'
+  }
+];
+
+const trendingData = [
+  { title: 'Gemini Ultra 2.0 Benchmark Results', count: '4.2K reads' },
+  { title: 'EU AI Act Open Source Exception', count: '2.8K reads' },
+  { title: 'Microsoft $100B Infrastructure Plan', count: '2.1K reads' },
+  { title: 'Claude Projects Feature Deep Dive', count: '1.7K reads' },
+  { title: '日本語LLMランキング2025年版', count: '1.2K reads' },
+];
+
+const sourcesData = [
+  'arXiv', 'DeepMind', 'OpenAI', 'Anthropic',
+  'TechCrunch', 'The Verge', 'Bloomberg', 'Wired',
+  'Nature', '日経AI', 'EU Commission', 'MIT Tech'
+];
+
+let currentLang = 'ja';
+let currentCategory = 'all';
+
+// ============================================
+// RENDER
+// ============================================
+function renderFeed() {
+  const feed = document.getElementById('news-feed');
+  const filtered = currentCategory === 'all'
+    ? newsData
+    : newsData.filter(n => n.category === currentCategory);
+
+  feed.innerHTML = filtered.map((item, i) => `
+    <div class="news-card ${item.featured ? 'featured' : ''} fade-in ${currentLang === 'en' ? 'show-en' : ''}"
+         style="animation-delay:${i*0.05}s"
+         data-category="${item.category}">
+      <div class="card-top">
+        <span class="category-tag cat-${item.category}">${item.category.toUpperCase()}</span>
+        <span class="news-time">${item.time}</span>
+        <span class="importance-badge ${item.importance}">${item.importance === 'critical' ? '🔴 CRITICAL' : item.importance === 'high' ? '🟠 HIGH' : '⚪ NORMAL'}</span>
+      </div>
+      <h2 class="news-title">${item.title}</h2>
+      <p class="news-title-en">${item.title_en}</p>
+      <p class="news-summary">${item.summary}</p>
+      <p class="news-summary-en">${item.summary_en}</p>
+      <div class="score-bar">
+        <div class="score-fill" style="width:${item.score}%"></div>
+      </div>
+      <div class="score-label">
+        <span>QUALITY SCORE</span>
+        <span>${item.score}/100</span>
+      </div>
+      <div class="card-bottom" style="margin-top:1rem;">
+        <div class="source-info">
+          <div class="source-dot"></div>
+          <span class="source-name">${item.source}</span>
+        </div>
+        <div class="card-actions">
+          <button class="action-btn" onclick="shareItem(${item.id})">SHARE</button>
+          <button class="action-btn" onclick="saveItem(${item.id})">SAVE</button>
+          <a href="${item.url}" class="read-more">READ →</a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTrending() {
+  document.getElementById('trending-list').innerHTML = trendingData.map((item, i) => `
+    <div class="trending-item">
+      <span class="trending-num ${i < 2 ? 'top' : ''}">0${i+1}</span>
+      <div>
+        <div class="trending-title">${item.title}</div>
+        <div class="trending-count">${item.count}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderSources() {
+  document.getElementById('sources-grid').innerHTML = sourcesData.map(s => `
+    <div class="source-item">
+      <div class="source-status"></div>
+      ${s}
+    </div>
+  `).join('');
+}
+
+// ============================================
+// INTERACTIONS
+// ============================================
+function filterCategory(cat) {
+  currentCategory = cat;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderFeed();
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.news-card').forEach(card => {
+    if (lang === 'en') card.classList.add('show-en');
+    else card.classList.remove('show-en');
+  });
+}
+
+function shareItem(id) {
+  const item = newsData.find(n => n.id === id);
+  if (navigator.share) {
+    navigator.share({ title: item.title, url: item.url });
+  } else {
+    navigator.clipboard.writeText(item.url);
+    alert('リンクをコピーしました');
+  }
+}
+
+function saveItem(id) {
+  const btn = event.target;
+  btn.textContent = '✓ SAVED';
+  btn.style.color = 'var(--green)';
+  btn.style.borderColor = 'var(--green)';
+}
+
+function subscribe() {
+  const input = document.querySelector('.newsletter-input');
+  if (input.value && input.value.includes('@')) {
+    input.value = '';
+    document.querySelector('.newsletter-btn').textContent = '✓ SUBSCRIBED';
+    document.querySelector('.newsletter-btn').style.background = 'var(--green)';
+  }
+}
+
+// ============================================
+// COUNTERS
+// ============================================
+function animateCounter(el, target, suffix = '') {
+  let current = 0;
+  const step = Math.ceil(target / 40);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 30);
+}
+
+// ============================================
+// INIT
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderFeed();
+  renderTrending();
+  renderSources();
+
+  setTimeout(() => {
+    animateCounter(document.getElementById('counter-sources'), 47);
+    animateCounter(document.getElementById('counter-today'), 23);
+    animateCounter(document.getElementById('counter-score'), 91, '%');
+  }, 300);
+
+  // Live update simulation
+  setInterval(() => {
+    const dot = document.querySelector('.live-dot');
+    dot.style.opacity = dot.style.opacity === '0' ? '1' : '0';
+    setTimeout(() => dot.style.opacity = '1', 500);
+  }, 3000);
+});
+</script>
+</body>
+</html>

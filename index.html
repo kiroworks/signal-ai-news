@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SIGNAL — AI Intelligence Feed</title>
   <meta name="description" content="最新AIニュースを厳選してお届け。研究者からビジネスパーソンまで、信頼できる情報を日英バイリンガルで。">
+  <meta property="og:title" content="SIGNAL — AI Intelligence Feed">
+  <meta property="og:description" content="AIの本質的な動きだけを届ける。厳選AIニュースを日英バイリンガルで毎日配信。">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
@@ -38,7 +41,6 @@
       overflow-x: hidden;
     }
 
-    /* NOISE TEXTURE */
     body::before {
       content: '';
       position: fixed;
@@ -62,1090 +64,814 @@
     .header-inner {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 2rem;
-      height: 64px;
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 2rem;
     }
 
     .logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      text-decoration: none;
+      font-size: 24px;
+      letter-spacing: 2px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 8px;
     }
 
     .logo-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
       background: var(--accent);
+      border-radius: 50%;
       animation: pulse 2s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    .logo-sub {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      color: var(--text-dim);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-top: -4px;
-      display: block;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .nav-center { display: flex; gap: 24px; align-items: center; }
 
     .nav-btn {
-      padding: 0.35rem 0.85rem;
-      border-radius: 4px;
-      font-size: 0.8rem;
-      font-family: 'DM Mono', monospace;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
+      background: none;
+      border: none;
       color: var(--text-muted);
-      transition: all 0.2s;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+      padding: 8px 0;
     }
 
-    .nav-btn:hover, .nav-btn.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: rgba(0,229,255,0.05);
-    }
+    .nav-btn:hover, .nav-btn.active { color: var(--accent); }
 
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--green);
-      letter-spacing: 0.1em;
-    }
+    .header-right { display: flex; gap: 12px; align-items: center; }
 
-    .live-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 1.5s infinite;
+    .status-badge { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+    .status-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: pulse 1s infinite; }
+
+    .lang-toggle {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s;
     }
+    .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
     /* TICKER */
-    .ticker-wrap {
+    .ticker {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
       overflow: hidden;
-      padding: 0.5rem 0;
+      padding: 12px 0;
+      min-height: 42px;
     }
 
-    .ticker-track {
-      display: flex;
-      gap: 4rem;
-      animation: ticker 40s linear infinite;
-      white-space: nowrap;
-    }
-
-    @keyframes ticker {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
+    .ticker-track { display: flex; animation: scroll 30s linear infinite; width: max-content; }
+    .ticker-track:hover { animation-play-state: paused; }
 
     .ticker-item {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      letter-spacing: 0.03em;
+      flex: 0 0 auto;
+      padding: 0 32px;
       display: flex;
+      gap: 8px;
       align-items: center;
-      gap: 0.5rem;
+      white-space: nowrap;
+      font-size: 13px;
     }
 
-    .ticker-item span.tag {
-      color: var(--accent);
-      font-weight: 500;
+    .ticker-tag {
+      background: var(--accent2);
+      color: #000;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: 700;
     }
+
+    .ticker-tag.critical { background: var(--red); }
+    .ticker-tag.high     { background: var(--accent2); }
+
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
     /* HERO */
     .hero {
+      background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(255,107,53,0.08) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 20px;
+      text-align: center;
+    }
+
+    .hero-content { max-width: 800px; margin: 0 auto; }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p { font-size: 15px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.8; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .stat-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      font-family: 'DM Mono', monospace;
+    }
+
+    .stat-label { font-size: 11px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* MAIN */
+    main {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 4rem 2rem 2rem;
+      padding: 40px 20px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: end;
+      grid-template-columns: 1fr 300px;
+      gap: 32px;
     }
 
-    .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 7vw, 7rem);
-      line-height: 0.95;
-      letter-spacing: 0.02em;
-      color: var(--text);
-    }
-
-    .hero-title em {
-      color: var(--accent);
-      font-style: normal;
-      display: block;
-    }
-
-    .hero-meta {
+    /* FILTER TABS */
+    .filter-tabs {
       display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .hero-stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.5rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-    }
-
-    .hero-stat-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .hero-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      max-width: 360px;
-    }
-
-    /* MAIN LAYOUT */
-    .main {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 2rem;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 2rem;
-    }
-
-    /* FILTER BAR */
-    .filter-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
+      gap: 8px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
       flex-wrap: wrap;
     }
 
-    .filter-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-right: 0.5rem;
-    }
-
-    .filter-btn {
-      padding: 0.3rem 0.7rem;
-      border-radius: 3px;
-      font-size: 0.75rem;
-      font-family: 'DM Mono', monospace;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
+    .tab {
+      background: none;
+      border: none;
       color: var(--text-muted);
-      transition: all 0.15s;
-      letter-spacing: 0.03em;
+      cursor: pointer;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.2s;
+      border-radius: 4px;
     }
 
-    .filter-btn:hover { border-color: var(--border-bright); color: var(--text); }
-    .filter-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.07); }
+    .tab:hover { color: var(--accent); }
 
-    /* NEWS CARDS */
-    .news-feed { display: flex; flex-direction: column; gap: 1px; }
+    .tab.active {
+      color: var(--accent);
+      background: rgba(0,229,255,0.08);
+    }
 
-    .news-card {
+    /* ARTICLES */
+    .articles { display: grid; gap: 20px; }
+
+    /* LOADING STATE */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px;
+      gap: 16px;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    .empty-state h3 { margin-bottom: 8px; font-size: 16px; color: var(--text); }
+    .empty-state p  { font-size: 13px; line-height: 1.6; }
+
+    /* ARTICLE CARD */
+    .article-card {
       background: var(--bg2);
       border: 1px solid var(--border);
-      padding: 1.5rem;
-      transition: all 0.2s;
+      border-radius: 8px;
+      padding: 22px;
+      transition: all 0.25s;
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: inherit;
     }
 
-    .news-card::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--accent);
-      transform: scaleY(0);
-      transition: transform 0.2s;
-      transform-origin: bottom;
+    .article-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px rgba(0,229,255,0.08);
+      transform: translateY(-2px);
     }
 
-    .news-card:hover { border-color: var(--border-bright); background: var(--bg3); }
-    .news-card:hover::before { transform: scaleY(1); }
-
-    .news-card.featured {
-      background: linear-gradient(135deg, rgba(0,229,255,0.05) 0%, transparent 60%);
-      border-color: rgba(0,229,255,0.2);
-    }
-
-    .news-card.featured::before { transform: scaleY(1); background: var(--accent); }
-
-    .card-top {
+    .article-header {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
     }
 
-    .category-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      padding: 0.15rem 0.5rem;
-      border-radius: 2px;
-      letter-spacing: 0.08em;
+    .article-meta { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
       text-transform: uppercase;
-      font-weight: 500;
+      letter-spacing: 0.3px;
     }
 
-    .cat-research { background: rgba(167,139,250,0.15); color: var(--accent3); border: 1px solid rgba(167,139,250,0.3); }
-    .cat-product { background: rgba(0,229,255,0.1); color: var(--accent); border: 1px solid rgba(0,229,255,0.2); }
-    .cat-business { background: rgba(255,107,53,0.1); color: var(--accent2); border: 1px solid rgba(255,107,53,0.2); }
-    .cat-policy { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+    .tag.research { border-color: var(--accent3); color: var(--accent3); }
+    .tag.product  { border-color: var(--accent);  color: var(--accent);  }
+    .tag.business { border-color: var(--accent2); color: var(--accent2); }
+    .tag.policy   { border-color: var(--green);   color: var(--green);   }
 
     .importance-badge {
-      margin-left: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-dim);
-    }
-
-    .importance-badge.high { color: var(--accent2); }
-    .importance-badge.critical { color: var(--red); }
-
-    .news-time {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--text-dim);
-    }
-
-    .news-title {
-      font-size: 1.05rem;
-      font-weight: 500;
-      line-height: 1.4;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.01em;
-    }
-
-    .news-title-en {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      margin-bottom: 0.75rem;
-      font-style: italic;
-    }
-
-    .news-summary {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-
-    .news-summary-en {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      display: none;
-    }
-
-    .show-en .news-summary-en { display: block; }
-    .show-en .news-summary { display: none; }
-
-    .card-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .source-info {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .source-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--text-dim);
-    }
-
-    .source-name {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      letter-spacing: 0.03em;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .action-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      padding: 0.25rem 0.6rem;
+      background: var(--bg3);
       border: 1px solid var(--border);
-      background: transparent;
       color: var(--text-muted);
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.15s;
-      letter-spacing: 0.03em;
-    }
-
-    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-    .read-more {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--accent);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      transition: gap 0.15s;
-    }
-
-    .read-more:hover { gap: 0.5rem; }
-
-    /* SCORE METER */
-    .score-bar {
-      height: 2px;
-      background: var(--border);
-      border-radius: 1px;
-      margin-top: 1rem;
-      overflow: hidden;
-    }
-
-    .score-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent3));
-      border-radius: 1px;
-      transition: width 0.6s ease;
-    }
-
-    .score-label {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--text-dim);
-      margin-top: 0.3rem;
-    }
-
-    /* SIDEBAR */
-    .sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-
-    .sidebar-widget {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 1.25rem;
-    }
-
-    .widget-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .widget-title-accent { color: var(--accent); }
-
-    /* TRENDING */
-    .trending-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .trending-item:last-child { border-bottom: none; }
-    .trending-item:hover .trending-title { color: var(--accent); }
-
-    .trending-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      color: var(--text-dim);
-      line-height: 1;
-      min-width: 28px;
-    }
-
-    .trending-num.top { color: var(--accent); }
-
-    .trending-title {
-      font-size: 0.82rem;
-      color: var(--text);
-      line-height: 1.4;
-      transition: color 0.15s;
-    }
-
-    .trending-count {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      margin-top: 0.2rem;
-    }
-
-    /* SOURCES */
-    .source-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-    }
-
-    .source-item {
-      padding: 0.6rem 0.75rem;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .source-item:hover { border-color: var(--accent); color: var(--accent); }
-
-    .source-status {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--green);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      white-space: nowrap;
       flex-shrink: 0;
     }
 
-    /* STATS WIDGET */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+    .importance-badge.critical { background: rgba(248,113,113,0.15); border-color: var(--red);    color: var(--red);    }
+    .importance-badge.high     { background: rgba(255,107,53,0.15);  border-color: var(--accent2); color: var(--accent2); }
+    .importance-badge.normal   { background: rgba(0,229,255,0.1);    border-color: var(--accent);  color: var(--accent);  }
+
+    .article-title { font-size: 17px; font-weight: 500; margin-bottom: 10px; line-height: 1.4; }
+    .article-title.en { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+    .article-summary { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.65; }
+
+    .key-insight {
+      background: rgba(0,229,255,0.05);
+      border-left: 2px solid var(--accent);
+      padding: 8px 12px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      border-radius: 0 4px 4px 0;
     }
 
-    .stat-item { text-align: center; }
-
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      color: var(--accent);
-      display: block;
-    }
-
-    .stat-desc {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.05em;
-    }
-
-    /* NEWSLETTER */
-    .newsletter-form {
+    .article-footer {
       display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-dim);
     }
 
-    .newsletter-input {
+    .article-source { display: flex; align-items: center; gap: 4px; }
+
+    .score-bar { display: flex; align-items: center; gap: 6px; }
+    .score-value { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--accent); min-width: 22px; font-size: 12px; }
+    .score-bar-bg { width: 48px; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+    .score-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; }
+
+    .article-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
+    .article-tag {
+      background: var(--bg3);
+      color: var(--text-dim);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+
+    /* SIDEBAR */
+    aside { display: flex; flex-direction: column; gap: 20px; }
+
+    .widget {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .widget-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .stat-item:last-child { border-bottom: none; }
+    .stat-item-label { color: var(--text-muted); }
+    .stat-item-value { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--accent); }
+
+    .ad-placeholder {
+      background: linear-gradient(135deg, rgba(0,229,255,0.04), rgba(255,107,53,0.04));
+      border: 1px dashed rgba(255,255,255,0.1);
+      padding: 28px;
+      text-align: center;
+      border-radius: 6px;
+      color: var(--text-dim);
+      font-size: 11px;
+    }
+
+    .sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+
+    .source-badge {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 6px;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .newsletter { display: flex; gap: 6px; }
+
+    .newsletter input {
+      flex: 1;
       background: var(--bg3);
       border: 1px solid var(--border);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.82rem;
-      padding: 0.6rem 0.75rem;
-      border-radius: 3px;
-      outline: none;
-      transition: border-color 0.15s;
+      padding: 8px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      min-width: 0;
     }
 
-    .newsletter-input::placeholder { color: var(--text-dim); }
-    .newsletter-input:focus { border-color: var(--accent); }
+    .newsletter input::placeholder { color: var(--text-dim); }
+    .newsletter input:focus { outline: none; border-color: var(--accent); }
 
-    .newsletter-btn {
+    .newsletter button {
       background: var(--accent);
-      color: var(--bg);
       border: none;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 0.15em;
-      padding: 0.6rem;
-      border-radius: 3px;
+      color: #000;
+      padding: 8px 12px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: opacity 0.15s;
+      font-size: 12px;
+      font-weight: 700;
+      transition: background 0.2s;
+      white-space: nowrap;
     }
 
-    .newsletter-btn:hover { opacity: 0.85; }
+    .newsletter button:hover { background: var(--accent2); }
 
-    .newsletter-note {
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      text-align: center;
-    }
-
-    /* AD PLACEHOLDER */
-    .ad-placeholder {
-      background: var(--bg3);
-      border: 1px dashed var(--border);
-      padding: 1.5rem;
-      text-align: center;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.05em;
-    }
+    .sub-msg { font-size: 11px; margin-top: 8px; padding: 6px 8px; border-radius: 4px; display: none; }
+    .sub-msg.success { background: rgba(34,197,94,0.15); color: var(--green); display: block; }
+    .sub-msg.error   { background: rgba(248,113,113,0.15); color: var(--red); display: block; }
 
     /* FOOTER */
     footer {
+      background: var(--bg2);
       border-top: 1px solid var(--border);
-      margin-top: 4rem;
-      padding: 2rem;
+      padding: 40px 20px 32px;
+      margin-top: 60px;
+    }
+
+    .footer-inner {
       max-width: 1400px;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      margin-bottom: 28px;
     }
 
-    .footer-brand {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.15em;
-      color: var(--text-dim);
+    .footer-section h3 { font-size: 12px; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+    .footer-section a { display: block; font-size: 13px; color: var(--text-dim); text-decoration: none; margin-bottom: 6px; transition: color 0.2s; }
+    .footer-section a:hover { color: var(--accent); }
+
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 20px; text-align: center; color: var(--text-dim); font-size: 11px; max-width: 1400px; margin: 0 auto; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      main { grid-template-columns: 1fr; }
     }
 
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .footer-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: color 0.15s;
-    }
-
-    .footer-link:hover { color: var(--accent); }
-
-    /* LANG TOGGLE */
-    .lang-toggle {
-      display: flex;
-      gap: 0.25rem;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 0.2rem;
-    }
-
-    .lang-btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 2px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      color: var(--text-dim);
-      transition: all 0.15s;
-      letter-spacing: 0.05em;
-    }
-
-    .lang-btn.active {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    /* ANIMATIONS */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeIn 0.4s forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .news-card:nth-child(1) { animation-delay: 0s; }
-    .news-card:nth-child(2) { animation-delay: 0.05s; }
-    .news-card:nth-child(3) { animation-delay: 0.1s; }
-    .news-card:nth-child(4) { animation-delay: 0.15s; }
-    .news-card:nth-child(5) { animation-delay: 0.2s; }
-
-    /* MOBILE */
-    @media (max-width: 1024px) {
-      .main { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .hero { grid-template-columns: 1fr; gap: 2rem; }
-    }
-
-    @media (max-width: 600px) {
-      .header-inner { padding: 0 1rem; }
-      nav { display: none; }
-      .hero { padding: 2rem 1rem 1rem; }
-      .main { padding: 1rem; }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 36px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      .header-inner { flex-wrap: wrap; gap: 12px; }
+      .nav-center { width: 100%; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="header-inner">
-    <a href="#" class="logo">
-      <div>
-        SIGNAL
-        <span class="logo-sub">AI Intelligence</span>
-      </div>
-      <div class="logo-dot"></div>
-    </a>
-    <nav>
-      <button class="nav-btn active" onclick="filterCategory('all')">ALL</button>
-      <button class="nav-btn" onclick="filterCategory('research')">RESEARCH</button>
-      <button class="nav-btn" onclick="filterCategory('product')">PRODUCT</button>
-      <button class="nav-btn" onclick="filterCategory('business')">BUSINESS</button>
-      <button class="nav-btn" onclick="filterCategory('policy')">POLICY</button>
-    </nav>
-    <div style="display:flex;align-items:center;gap:1rem;">
-      <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('ja')">JA</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
-      </div>
-      <div class="live-badge">
-        <div class="live-dot"></div>
-        LIVE
+  <header>
+    <div class="header-inner">
+      <div class="logo">SIGNAL <div class="logo-dot"></div></div>
+      <nav class="nav-center">
+        <button class="nav-btn active" data-category="all">All</button>
+        <button class="nav-btn" data-category="research">Research</button>
+        <button class="nav-btn" data-category="product">Product</button>
+        <button class="nav-btn" data-category="business">Business</button>
+        <button class="nav-btn" data-category="policy">Policy</button>
+      </nav>
+      <div class="header-right">
+        <div class="status-badge"><span class="status-dot"></span>Live</div>
+        <button class="lang-toggle" id="langToggle">EN</button>
       </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-track" id="ticker">
-    <span class="ticker-item"><span class="tag">NEW</span> OpenAI、GPT-5の詳細をリーク？開発者フォーラムに掲載</span>
-    <span class="ticker-item"><span class="tag">HOT</span> Google DeepMind、タンパク質折りたたみ予測で新記録</span>
-    <span class="ticker-item"><span class="tag">ALERT</span> EU AI法の施行期限まで90日</span>
-    <span class="ticker-item"><span class="tag">NEW</span> Anthropic、$2.5B追加資金調達を発表</span>
-    <span class="ticker-item"><span class="tag">HOT</span> Meta、次世代LLaMAの一部コードを公開</span>
-    <span class="ticker-item"><span class="tag">NEW</span> OpenAI、GPT-5の詳細をリーク？開発者フォーラムに掲載</span>
-    <span class="ticker-item"><span class="tag">HOT</span> Google DeepMind、タンパク質折りたたみ予測で新記録</span>
-    <span class="ticker-item"><span class="tag">ALERT</span> EU AI法の施行期限まで90日</span>
-    <span class="ticker-item"><span class="tag">NEW</span> Anthropic、$2.5B追加資金調達を発表</span>
-    <span class="ticker-item"><span class="tag">HOT</span> Meta、次世代LLaMAの一部コードを公開</span>
-  </div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div>
-    <h1 class="hero-title">
-      The AI
-      <em>Signal</em>
-      You Need
-    </h1>
-  </div>
-  <div class="hero-meta">
-    <p class="hero-desc">ノイズを排除し、AIの本質的な動きだけを届ける。研究・製品・ビジネス・政策 — 全方位の情報を独自スコアリングで厳選。</p>
-    <div style="display:flex;gap:2rem;">
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="counter-sources">0</span>
-        <span class="hero-stat-label">Sources Monitored</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="counter-today">0</span>
-        <span class="hero-stat-label">Articles Today</span>
-      </div>
-      <div class="hero-stat">
-        <span class="hero-stat-num" id="counter-score">0%</span>
-        <span class="hero-stat-label">Avg Quality Score</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MAIN -->
-<div class="main">
-  <!-- FEED -->
-  <div>
-    <div class="filter-bar">
-      <span class="filter-label">SORT:</span>
-      <button class="filter-btn active">RELEVANCE</button>
-      <button class="filter-btn">LATEST</button>
-      <button class="filter-btn">IMPACT</button>
-      <span class="filter-label" style="margin-left:1rem;">LANG:</span>
-      <button class="filter-btn active">JA + EN</button>
-    </div>
-
-    <div class="news-feed" id="news-feed">
-      <!-- Cards injected by JS -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <!-- JS で動的に挿入 -->
     </div>
   </div>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <!-- Trending -->
-    <div class="sidebar-widget">
-      <div class="widget-title">
-        TRENDING <span class="widget-title-accent">NOW</span>
-      </div>
-      <div id="trending-list"></div>
-    </div>
-
-    <!-- Stats -->
-    <div class="sidebar-widget">
-      <div class="widget-title">TODAY'S <span class="widget-title-accent">PULSE</span></div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <span class="stat-num">47</span>
-          <span class="stat-desc">Articles processed</span>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>The AI Signal You Need</h1>
+      <p>ノイズを排除し、AIの本質的な動きだけを届ける。<br>厳選されたAIニュースを日英バイリンガルで毎日配信。</p>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <div class="stat-number" id="stat-sources">13</div>
+          <div class="stat-label">Sources Monitored</div>
         </div>
-        <div class="stat-item">
-          <span class="stat-num">8</span>
-          <span class="stat-desc">Featured picks</span>
+        <div class="stat-box">
+          <div class="stat-number" id="stat-today">—</div>
+          <div class="stat-label">Articles Today</div>
         </div>
-        <div class="stat-item">
-          <span class="stat-num">12</span>
-          <span class="stat-desc">Sources active</span>
+        <div class="stat-box">
+          <div class="stat-number" id="stat-avg">—</div>
+          <div class="stat-label">Avg Quality Score</div>
         </div>
-        <div class="stat-item">
-          <span class="stat-num">91%</span>
-          <span class="stat-desc">Quality avg</span>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="tab active" data-category="all">All Articles</button>
+        <button class="tab" data-category="research">Research</button>
+        <button class="tab" data-category="product">Product</button>
+        <button class="tab" data-category="business">Business</button>
+        <button class="tab" data-category="policy">Policy</button>
+      </div>
+      <div id="articlesList">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Loading articles...</span>
         </div>
       </div>
     </div>
 
-    <!-- Ad placeholder -->
-    <div class="ad-placeholder">
-      AD SPACE<br>300×250
-    </div>
-
-    <!-- Sources -->
-    <div class="sidebar-widget">
-      <div class="widget-title">MONITORED <span class="widget-title-accent">SOURCES</span></div>
-      <div class="source-grid" id="sources-grid"></div>
-    </div>
-
-    <!-- Newsletter -->
-    <div class="sidebar-widget">
-      <div class="widget-title">DAILY <span class="widget-title-accent">BRIEF</span></div>
-      <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.75rem;">毎朝8時、重要ニュースを5本に厳選してお届け。</p>
-      <div class="newsletter-form">
-        <input type="email" class="newsletter-input" placeholder="your@email.com">
-        <button class="newsletter-btn" onclick="subscribe()">SUBSCRIBE</button>
-        <span class="newsletter-note">No spam. Unsubscribe anytime.</span>
+    <aside>
+      <div class="widget">
+        <div class="widget-title">Today's Pulse</div>
+        <div class="stat-item"><span class="stat-item-label">Critical</span><span class="stat-item-value" id="pulse-critical">—</span></div>
+        <div class="stat-item"><span class="stat-item-label">High Impact</span><span class="stat-item-value" id="pulse-high">—</span></div>
+        <div class="stat-item"><span class="stat-item-label">Avg Score</span><span class="stat-item-value" id="pulse-avg">—</span></div>
+        <div class="stat-item"><span class="stat-item-label">Total Published</span><span class="stat-item-value" id="pulse-total">—</span></div>
       </div>
-    </div>
-  </aside>
-</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-brand">SIGNAL</div>
-  <div class="footer-links">
-    <a href="#" class="footer-link">About</a>
-    <a href="#" class="footer-link">API</a>
-    <a href="#" class="footer-link">Privacy</a>
-    <a href="#" class="footer-link">Advertise</a>
-  </div>
-  <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--text-dim);">
-    Powered by Claude AI
-  </div>
-</footer>
-
-<script>
-// ============================================
-// DEMO DATA (実際はAPIから取得)
-// ============================================
-const newsData = [
-  {
-    id: 1,
-    category: 'research',
-    importance: 'critical',
-    featured: true,
-    title: 'Google DeepMind、推論能力を10倍向上させる新アーキテクチャ「Gemini Ultra 2.0」を発表',
-    title_en: 'Google DeepMind Unveils "Gemini Ultra 2.0" with 10x Reasoning Improvement',
-    summary: 'DeepMindの研究チームが本日、既存モデルと比較して数学・科学的推論能力を約10倍向上させたと主張する新アーキテクチャを発表。特に多段階推論タスクにおいて人間の専門家レベルを超えるパフォーマンスを示したとされる。内部ベンチマークでGPT-4oを全分野で上回ったと報告。',
-    summary_en: 'DeepMind\'s research team unveiled a new architecture claiming ~10x improvement in mathematical and scientific reasoning over existing models. The system reportedly surpassed human expert-level performance on multi-step reasoning tasks and outperformed GPT-4o across all internal benchmarks.',
-    source: 'DeepMind Blog',
-    time: '14分前',
-    score: 95,
-    url: '#'
-  },
-  {
-    id: 2,
-    category: 'product',
-    importance: 'high',
-    featured: false,
-    title: 'Anthropic、Claudeに「Projects」機能を追加 — 長期記憶と文脈保持が可能に',
-    title_en: 'Anthropic Adds "Projects" Feature to Claude — Enabling Long-Term Memory and Context Retention',
-    summary: 'AnthropicがClaude.aiに新機能「Projects」をローンチ。会話間での記憶保持、カスタムインストラクションの永続化、ファイルの組織化が可能になる。これによりChatGPTのGPTsやGeminiのGemsに相当する機能をClaudeも持つことになる。',
-    summary_en: 'Anthropic launched "Projects" on Claude.ai, enabling memory retention between conversations, persistent custom instructions, and file organization. This brings Claude feature parity with ChatGPT\'s GPTs and Gemini\'s Gems.',
-    source: 'Anthropic',
-    time: '1時間前',
-    score: 88,
-    url: '#'
-  },
-  {
-    id: 3,
-    category: 'business',
-    importance: 'high',
-    featured: false,
-    title: 'Microsoft、AIインフラへの投資を年間$100Bに拡大 — データセンター用電力確保が最大の課題に',
-    title_en: 'Microsoft Expands AI Infrastructure Investment to $100B Annually — Power Procurement Emerges as Key Challenge',
-    summary: 'Microsoftが2025年のAIインフラ投資計画を発表。年間1000億ドルという前例のない規模への拡大を明らかにした一方、電力確保が最大のボトルネックになっていると認める。原子力・再生可能エネルギー両方で電力パートナーシップを積極的に模索中。',
-    summary_en: 'Microsoft revealed plans for unprecedented $100B annual AI infrastructure investment while acknowledging power procurement as the primary bottleneck. The company is actively pursuing partnerships in both nuclear and renewable energy sectors.',
-    source: 'Bloomberg',
-    time: '2時間前',
-    score: 82,
-    url: '#'
-  },
-  {
-    id: 4,
-    category: 'policy',
-    importance: 'normal',
-    featured: false,
-    title: 'EU AI法、「汎用AIモデル」への規制細則を公開 — オープンソースモデルの扱いが焦点に',
-    title_en: 'EU AI Act Publishes Detailed Rules for "General Purpose AI Models" — Open-Source Treatment in Focus',
-    summary: 'EU委員会が汎用AI（GPAI）モデルに関する詳細なガイドラインを公開。特にオープンソースモデルの透明性要件と責任の所在が論争の的に。MetaのLlama、MistralなどのEU系スタートアップへの影響が注目される。施行は6ヶ月以内。',
-    summary_en: 'The EU Commission published detailed guidelines for General Purpose AI models, with transparency requirements and liability for open-source models emerging as controversial points. Implementation expected within 6 months.',
-    source: 'EU Commission',
-    time: '3時間前',
-    score: 79,
-    url: '#'
-  },
-  {
-    id: 5,
-    category: 'research',
-    importance: 'high',
-    featured: false,
-    title: '東京大学 × リクルート研究チーム、日本語特化LLMの新ベンチマークを公開',
-    title_en: 'UTokyo × Recruit Research Team Releases New Benchmark for Japanese-Specialized LLMs',
-    summary: '東京大学とリクルートの共同研究チームが日本語LLM評価の標準化を目指した新ベンチマーク「JA-BENCH 2.0」を公開。敬語・方言・法律文書など日本語特有の難しさを定量化。現時点でClaude 3.5がトップスコア。',
-    summary_en: 'A joint research team from UTokyo and Recruit published "JA-BENCH 2.0", a new standardized benchmark for Japanese LLM evaluation covering keigo, dialects, and legal documents. Claude 3.5 currently leads all metrics.',
-    source: 'arXiv / 東京大学',
-    time: '5時間前',
-    score: 85,
-    url: '#'
-  }
-];
-
-const trendingData = [
-  { title: 'Gemini Ultra 2.0 Benchmark Results', count: '4.2K reads' },
-  { title: 'EU AI Act Open Source Exception', count: '2.8K reads' },
-  { title: 'Microsoft $100B Infrastructure Plan', count: '2.1K reads' },
-  { title: 'Claude Projects Feature Deep Dive', count: '1.7K reads' },
-  { title: '日本語LLMランキング2025年版', count: '1.2K reads' },
-];
-
-const sourcesData = [
-  'arXiv', 'DeepMind', 'OpenAI', 'Anthropic',
-  'TechCrunch', 'The Verge', 'Bloomberg', 'Wired',
-  'Nature', '日経AI', 'EU Commission', 'MIT Tech'
-];
-
-let currentLang = 'ja';
-let currentCategory = 'all';
-
-// ============================================
-// RENDER
-// ============================================
-function renderFeed() {
-  const feed = document.getElementById('news-feed');
-  const filtered = currentCategory === 'all'
-    ? newsData
-    : newsData.filter(n => n.category === currentCategory);
-
-  feed.innerHTML = filtered.map((item, i) => `
-    <div class="news-card ${item.featured ? 'featured' : ''} fade-in ${currentLang === 'en' ? 'show-en' : ''}"
-         style="animation-delay:${i*0.05}s"
-         data-category="${item.category}">
-      <div class="card-top">
-        <span class="category-tag cat-${item.category}">${item.category.toUpperCase()}</span>
-        <span class="news-time">${item.time}</span>
-        <span class="importance-badge ${item.importance}">${item.importance === 'critical' ? '🔴 CRITICAL' : item.importance === 'high' ? '🟠 HIGH' : '⚪ NORMAL'}</span>
+      <div class="widget">
+        <div class="widget-title">Advertise Here</div>
+        <div class="ad-placeholder">広告掲載のお問い合わせ</div>
       </div>
-      <h2 class="news-title">${item.title}</h2>
-      <p class="news-title-en">${item.title_en}</p>
-      <p class="news-summary">${item.summary}</p>
-      <p class="news-summary-en">${item.summary_en}</p>
-      <div class="score-bar">
-        <div class="score-fill" style="width:${item.score}%"></div>
-      </div>
-      <div class="score-label">
-        <span>QUALITY SCORE</span>
-        <span>${item.score}/100</span>
-      </div>
-      <div class="card-bottom" style="margin-top:1rem;">
-        <div class="source-info">
-          <div class="source-dot"></div>
-          <span class="source-name">${item.source}</span>
-        </div>
-        <div class="card-actions">
-          <button class="action-btn" onclick="shareItem(${item.id})">SHARE</button>
-          <button class="action-btn" onclick="saveItem(${item.id})">SAVE</button>
-          <a href="${item.url}" class="read-more">READ →</a>
+
+      <div class="widget">
+        <div class="widget-title">Monitored Sources</div>
+        <div class="sources-grid">
+          <div class="source-badge">arXiv AI</div>
+          <div class="source-badge">OpenAI</div>
+          <div class="source-badge">DeepMind</div>
+          <div class="source-badge">Anthropic</div>
+          <div class="source-badge">Google AI</div>
+          <div class="source-badge">Meta AI</div>
+          <div class="source-badge">Mistral</div>
+          <div class="source-badge">MIT TR</div>
+          <div class="source-badge">TechCrunch</div>
+          <div class="source-badge">The Verge</div>
+          <div class="source-badge">EU AI Act</div>
+          <div class="source-badge">NIST</div>
         </div>
       </div>
-    </div>
-  `).join('');
-}
 
-function renderTrending() {
-  document.getElementById('trending-list').innerHTML = trendingData.map((item, i) => `
-    <div class="trending-item">
-      <span class="trending-num ${i < 2 ? 'top' : ''}">0${i+1}</span>
-      <div>
-        <div class="trending-title">${item.title}</div>
-        <div class="trending-count">${item.count}</div>
+      <div class="widget">
+        <div class="widget-title">Newsletter</div>
+        <div class="newsletter">
+          <input type="email" placeholder="your@email.com" id="emailInput">
+          <button id="subscribeBtn">Subscribe</button>
+        </div>
+        <div class="sub-msg" id="subMsg"></div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-section">
+        <h3>SIGNAL</h3>
+        <a href="#">About</a>
+        <a href="#">How It Works</a>
+      </div>
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+      <div class="footer-section">
+        <h3>Connect</h3>
+        <a href="https://x.com" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="#">Contact</a>
       </div>
     </div>
-  `).join('');
-}
-
-function renderSources() {
-  document.getElementById('sources-grid').innerHTML = sourcesData.map(s => `
-    <div class="source-item">
-      <div class="source-status"></div>
-      ${s}
+    <div class="footer-bottom">
+      SIGNAL 2026 — Powered by Claude AI. Curated for humans. |
+      <a href="#" style="color:var(--text-dim);text-decoration:none;">by kiroworks</a>
     </div>
-  `).join('');
-}
+  </footer>
 
-// ============================================
-// INTERACTIONS
-// ============================================
-function filterCategory(cat) {
-  currentCategory = cat;
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  renderFeed();
-}
+  <script>
+    // ============================================================
+    // SUPABASE CONFIG
+    // ※ 以下の2つの値を Supabase の設定値に書き換えてください
+    // Settings → API Keys → Publishable key (sb_publishable_...)
+    // ============================================================
+    const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
+    const SUPABASE_KEY = 'YOUR_PUBLISHABLE_KEY';
 
-function setLang(lang) {
-  currentLang = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.querySelectorAll('.news-card').forEach(card => {
-    if (lang === 'en') card.classList.add('show-en');
-    else card.classList.remove('show-en');
-  });
-}
+    // ============================================================
+    // STATE
+    // ============================================================
+    let allArticles   = [];
+    let currentLang   = 'ja';
+    let currentCategory = 'all';
 
-function shareItem(id) {
-  const item = newsData.find(n => n.id === id);
-  if (navigator.share) {
-    navigator.share({ title: item.title, url: item.url });
-  } else {
-    navigator.clipboard.writeText(item.url);
-    alert('リンクをコピーしました');
-  }
-}
+    // ============================================================
+    // SUPABASE API
+    // ============================================================
+    async function supabaseGet(table, query = '') {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`, {
+        headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' }
+      });
+      if (!res.ok) throw new Error(`Supabase ${res.status}`);
+      return res.json();
+    }
 
-function saveItem(id) {
-  const btn = event.target;
-  btn.textContent = '✓ SAVED';
-  btn.style.color = 'var(--green)';
-  btn.style.borderColor = 'var(--green)';
-}
+    async function supabasePost(table, body) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_KEY,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal'
+        },
+        body: JSON.stringify(body)
+      });
+      return res;
+    }
 
-function subscribe() {
-  const input = document.querySelector('.newsletter-input');
-  if (input.value && input.value.includes('@')) {
-    input.value = '';
-    document.querySelector('.newsletter-btn').textContent = '✓ SUBSCRIBED';
-    document.querySelector('.newsletter-btn').style.background = 'var(--green)';
-  }
-}
+    // ============================================================
+    // DATA LOADING
+    // ============================================================
+    async function loadArticles() {
+      showLoading();
+      try {
+        const articles = await supabaseGet(
+          'articles',
+          'status=eq.published&order=score.desc,created_at.desc&limit=100'
+        );
+        allArticles = articles;
+        renderArticles(currentCategory);
+        updateTicker(articles);
+        updateStats(articles);
+      } catch (e) {
+        showError(e.message);
+      }
+    }
 
-// ============================================
-// COUNTERS
-// ============================================
-function animateCounter(el, target, suffix = '') {
-  let current = 0;
-  const step = Math.ceil(target / 40);
-  const timer = setInterval(() => {
-    current = Math.min(current + step, target);
-    el.textContent = current + suffix;
-    if (current >= target) clearInterval(timer);
-  }, 30);
-}
+    // ============================================================
+    // STATS
+    // ============================================================
+    function updateStats(articles) {
+      const todayISO = new Date().toISOString().slice(0, 10);
+      const todayArticles = articles.filter(a => (a.created_at || '').startsWith(todayISO));
+      const avgScore = articles.length > 0
+        ? Math.round(articles.reduce((s, a) => s + (a.score || 0), 0) / articles.length)
+        : 0;
+      const criticalCount = articles.filter(a => a.importance === 'critical').length;
+      const highCount     = articles.filter(a => a.importance === 'high').length;
 
-// ============================================
-// INIT
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-  renderFeed();
-  renderTrending();
-  renderSources();
+      setText('stat-today',    todayArticles.length);
+      setText('stat-avg',      avgScore || '—');
+      setText('pulse-critical', criticalCount);
+      setText('pulse-high',     highCount);
+      setText('pulse-avg',      avgScore || '—');
+      setText('pulse-total',    articles.length);
+    }
 
-  setTimeout(() => {
-    animateCounter(document.getElementById('counter-sources'), 47);
-    animateCounter(document.getElementById('counter-today'), 23);
-    animateCounter(document.getElementById('counter-score'), 91, '%');
-  }, 300);
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
 
-  // Live update simulation
-  setInterval(() => {
-    const dot = document.querySelector('.live-dot');
-    dot.style.opacity = dot.style.opacity === '0' ? '1' : '0';
-    setTimeout(() => dot.style.opacity = '1', 500);
-  }, 3000);
-});
-</script>
+    // ============================================================
+    // TICKER
+    // ============================================================
+    function updateTicker(articles) {
+      const notable = articles
+        .filter(a => a.importance === 'critical' || a.importance === 'high')
+        .slice(0, 10);
+
+      if (!notable.length) return;
+
+      const track = document.getElementById('tickerTrack');
+      // 2周分作ってシームレスループ
+      const items = [...notable, ...notable].map(a => {
+        const label = a.importance === 'critical' ? 'CRITICAL' : 'HOT';
+        const title = currentLang === 'ja' ? (a.title_ja || a.title_en) : (a.title_en || a.title_ja);
+        return `<div class="ticker-item">
+          <span class="ticker-tag ${a.importance}">${label}</span>
+          <span>${escHtml(title)}</span>
+        </div>`;
+      }).join('');
+      track.innerHTML = items;
+    }
+
+    // ============================================================
+    // RENDER
+    // ============================================================
+    function renderArticles(category) {
+      const list = document.getElementById('articlesList');
+      const filtered = category === 'all'
+        ? allArticles
+        : allArticles.filter(a => a.category === category);
+
+      if (!filtered.length) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <h3>No articles yet</h3>
+            <p>パイプラインを実行してください。<br>記事は Supabase で "published" に設定すると表示されます。</p>
+          </div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(a => renderCard(a)).join('');
+    }
+
+    function renderCard(a) {
+      const title   = currentLang === 'ja' ? (a.title_ja   || a.title_en)   : (a.title_en   || a.title_ja);
+      const titleAlt= currentLang === 'ja' ? (a.title_en   || '')            : (a.title_ja   || '');
+      const summary = currentLang === 'ja' ? (a.summary_ja || a.summary_en) : (a.summary_en || a.summary_ja);
+      const tags    = (a.tags || []).slice(0, 3).map(t => `<span class="article-tag">${escHtml(t)}</span>`).join('');
+      const dateStr = a.created_at ? new Date(a.created_at).toLocaleDateString('ja-JP') : '';
+
+      return `
+        <a class="article-card" href="${escHtml(a.url)}" target="_blank" rel="noopener noreferrer">
+          <div class="article-header">
+            <div class="article-meta">
+              <span class="tag ${escHtml(a.category)}">${escHtml(a.category || '').toUpperCase()}</span>
+            </div>
+            <span class="importance-badge ${escHtml(a.importance)}">${escHtml(a.importance || '').toUpperCase()}</span>
+          </div>
+          <div class="article-title">${escHtml(title)}</div>
+          ${titleAlt ? `<div class="article-title en" style="display:none">${escHtml(titleAlt)}</div>` : ''}
+          <p class="article-summary">${escHtml(summary || '')}</p>
+          ${a.key_insight ? `<div class="key-insight">💡 ${escHtml(a.key_insight)}</div>` : ''}
+          <div class="article-footer">
+            <div class="article-source">📍 ${escHtml(a.source || '')} ${dateStr ? `· ${dateStr}` : ''}</div>
+            <div class="score-bar">
+              <span class="score-value">${a.score || 0}</span>
+              <div class="score-bar-bg"><div class="score-bar-fill" style="width:${a.score || 0}%"></div></div>
+            </div>
+          </div>
+          ${tags ? `<div class="article-tags">${tags}</div>` : ''}
+        </a>`;
+    }
+
+    // ============================================================
+    // UI STATES
+    // ============================================================
+    function showLoading() {
+      document.getElementById('articlesList').innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Loading articles...</span>
+        </div>`;
+    }
+
+    function showError(msg) {
+      document.getElementById('articlesList').innerHTML = `
+        <div class="empty-state">
+          <h3>接続エラー</h3>
+          <p>SUPABASE_URL と SUPABASE_KEY を index.html に設定してください。<br><small>${escHtml(msg)}</small></p>
+        </div>`;
+    }
+
+    function escHtml(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ============================================================
+    // EVENTS
+    // ============================================================
+    document.getElementById('langToggle').addEventListener('click', () => {
+      currentLang = currentLang === 'ja' ? 'en' : 'ja';
+      document.getElementById('langToggle').textContent = currentLang === 'ja' ? 'EN' : 'JA';
+      renderArticles(currentCategory);
+      updateTicker(allArticles);
+    });
+
+    document.querySelectorAll('.tab, .nav-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const isTab = e.target.classList.contains('tab');
+        document.querySelectorAll(isTab ? '.tab' : '.nav-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = e.target.dataset.category;
+        renderArticles(currentCategory);
+      });
+    });
+
+    document.getElementById('subscribeBtn').addEventListener('click', async () => {
+      const email = document.getElementById('emailInput').value.trim();
+      const msg   = document.getElementById('subMsg');
+      if (!email || !email.includes('@')) {
+        msg.className = 'sub-msg error';
+        msg.textContent = 'メールアドレスを正しく入力してください';
+        return;
+      }
+      try {
+        const res = await supabasePost('subscribers', { email, language: currentLang });
+        if (res.ok || res.status === 201) {
+          msg.className = 'sub-msg success';
+          msg.textContent = '登録しました！最新情報をお届けします。';
+          document.getElementById('emailInput').value = '';
+        } else if (res.status === 409) {
+          msg.className = 'sub-msg error';
+          msg.textContent = 'すでに登録済みです。';
+        } else {
+          throw new Error(`status ${res.status}`);
+        }
+      } catch (e) {
+        msg.className = 'sub-msg error';
+        msg.textContent = `登録に失敗しました: ${e.message}`;
+      }
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    loadArticles();
+  </script>
 </body>
 </html>

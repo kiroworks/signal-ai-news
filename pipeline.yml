@@ -1,4 +1,4 @@
-name: SIGNAL — AI News Pipeline
+name: SIGNAL AI News Pipeline
 
 on:
   workflow_dispatch:
@@ -7,19 +7,14 @@ jobs:
   run-pipeline:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
       - name: Install dependencies
-        run: |
-          pip install anthropic feedparser supabase tweepy python-dotenv
-
+        run: pip install anthropic feedparser supabase tweepy python-dotenv
       - name: Run news pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

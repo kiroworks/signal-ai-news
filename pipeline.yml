@@ -1,13 +1,6 @@
 name: SIGNAL — AI News Pipeline
 
 on:
-#   1日4回自動実行（6時間おき）
-#  schedule:
-#    - cron: '0 0 * * *'   # 09:00 JST
-#    - cron: '0 3 * * *'   # 12:00 JST
-#    - cron: '0 6 * * *'   # 15:00 JST
-#    - cron: '0 12 * * *'  # 21:00 JST
-#   手動実行も可能
   workflow_dispatch:
 
 jobs:
@@ -32,8 +25,4 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
-          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
-          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-          TWITTER_ACCESS_SECRET: ${{ secrets.TWITTER_ACCESS_SECRET }}
         run: python news_pipeline.py

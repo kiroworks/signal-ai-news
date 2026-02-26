@@ -1,14 +1,14 @@
 name: SIGNAL — AI News Pipeline
 
-#on:
-  # 1日4回自動実行（6時間おき）
+on:
+#   1日4回自動実行（6時間おき）
 #  schedule:
 #    - cron: '0 0 * * *'   # 09:00 JST
 #    - cron: '0 3 * * *'   # 12:00 JST
 #    - cron: '0 6 * * *'   # 15:00 JST
 #    - cron: '0 12 * * *'  # 21:00 JST
-  # 手動実行も可能
-#  workflow_dispatch:
+#   手動実行も可能
+  workflow_dispatch:
 
 jobs:
   run-pipeline:

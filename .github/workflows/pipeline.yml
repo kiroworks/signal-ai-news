@@ -1,11 +1,11 @@
 name: SIGNAL AI News Pipeline
 
 on:
-  schedule:
+#  schedule:
 #    - cron: '0 0 * * *'   # 09:00 JST
 #    - cron: '0 3 * * *'   # 12:00 JST
 #    - cron: '0 6 * * *'   # 15:00 JST
-    - cron: '0 12 * * *'  # 21:00 JST
+#    - cron: '0 12 * * *'  # 21:00 JST
   workflow_dispatch:       # 手動実行も可能
 
 jobs:
